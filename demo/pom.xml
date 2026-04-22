@@ -13,4 +13,16 @@
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
+    <dependencies>
+      <!-- =====================================================
+             OPCION A: PostgreSQL (activa por defecto)
+             Driver JDBC para PostgreSQL 15+
+        ====================================================== -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.7.3</version>
+        </dependency>
+    </dependencies>
+
 </project>
