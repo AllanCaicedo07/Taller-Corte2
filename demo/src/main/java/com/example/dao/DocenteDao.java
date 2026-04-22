@@ -1,7 +1,7 @@
 package com.example.dao;
 
-import com.uniajc.config.ConexionPostgresDatabase;
-import com.uniajc.modelo.Docente;
+import com.example.DB.ConexionDB;
+import com.example.Model.Docente;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ public class DocenteDao {
 
     public boolean crearDocente(Docente docente) {
         String sql = "INSERT INTO docente (nombre, especialidad) VALUES (?, ?)";
-        try (Connection con = ConexionPostgresDatabase.getConexion();
+        try (Connection con = ConexionDB.getConexion();
                 PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, docente.getNombre());
@@ -27,7 +27,7 @@ public class DocenteDao {
     public List<Docente> listarDocentes() {
         List<Docente> lista = new ArrayList<>();
         String sql = "SELECT * FROM docente";
-        try (Connection con = ConexionPostgresDatabase.getConexion();
+        try (Connection con = ConexionDB.getConexion();
                 Statement st = con.createStatement();
                 ResultSet rs = st.executeQuery(sql)) {
 
@@ -42,7 +42,7 @@ public class DocenteDao {
 
     public Docente buscarPorId(int id) {
         String sql = "SELECT * FROM docente WHERE id_docente = ?";
-        try (Connection con = ConexionPostgresDatabase.getConexion();
+        try (Connection con = ConexionDB.getConexion();
                 PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, id);
@@ -58,7 +58,7 @@ public class DocenteDao {
 
     public boolean actualizarDocente(Docente docente) {
         String sql = "UPDATE docente SET nombre = ?, especialidad = ? WHERE id_docente = ?";
-        try (Connection con = ConexionPostgresDatabase.getConexion();
+        try (Connection con = ConexionDB.getConexion();
                 PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, docente.getNombre());
@@ -74,7 +74,7 @@ public class DocenteDao {
 
     public boolean eliminarDocente(int id) {
         String sql = "DELETE FROM docente WHERE id_docente = ?";
-        try (Connection con = ConexionPostgresDatabase.getConexion();
+        try (Connection con = ConexionDB.getConexion();
                 PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, id);

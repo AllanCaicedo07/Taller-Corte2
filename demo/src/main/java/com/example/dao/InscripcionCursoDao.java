@@ -1,7 +1,7 @@
 package com.example.dao;
 
-import com.uniajc.config.ConexionPostgresDatabase;
-import com.uniajc.modelo.InscripcionCurso;
+import com.example.DB.ConexionDB;
+import com.example.Model.InscripcionCurso;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ public class InscripcionCursoDao {
 
     public boolean crearInscripcion(InscripcionCurso inscripcion) {
         String sql = "INSERT INTO inscripcion_curso (id_estudiante, id_grupo, nota_final, estado) VALUES (?, ?, ?, ?)";
-        try (Connection con = ConexionPostgresDatabase.getConexion();
+        try (Connection con = ConexionDB.getConexion();
                 PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, inscripcion.getIdEstudiante());
@@ -29,7 +29,7 @@ public class InscripcionCursoDao {
     public List<InscripcionCurso> listarInscripciones() {
         List<InscripcionCurso> lista = new ArrayList<>();
         String sql = "SELECT * FROM inscripcion_curso";
-        try (Connection con = ConexionPostgresDatabase.getConexion();
+        try (Connection con = ConexionDB.getConexion();
                 Statement st = con.createStatement();
                 ResultSet rs = st.executeQuery(sql)) {
 
@@ -44,7 +44,7 @@ public class InscripcionCursoDao {
 
     public InscripcionCurso buscarPorId(int id) {
         String sql = "SELECT * FROM inscripcion_curso WHERE id_inscripcion = ?";
-        try (Connection con = ConexionPostgresDatabase.getConexion();
+        try (Connection con = ConexionDB.getConexion();
                 PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, id);
@@ -61,7 +61,7 @@ public class InscripcionCursoDao {
     public List<InscripcionCurso> listarPorEstudiante(int idEstudiante) {
         List<InscripcionCurso> lista = new ArrayList<>();
         String sql = "SELECT * FROM inscripcion_curso WHERE id_estudiante = ?";
-        try (Connection con = ConexionPostgresDatabase.getConexion();
+        try (Connection con = ConexionDB.getConexion();
                 PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, idEstudiante);
@@ -77,7 +77,7 @@ public class InscripcionCursoDao {
 
     public boolean actualizarInscripcion(InscripcionCurso inscripcion) {
         String sql = "UPDATE inscripcion_curso SET id_estudiante = ?, id_grupo = ?, nota_final = ?, estado = ? WHERE id_inscripcion = ?";
-        try (Connection con = ConexionPostgresDatabase.getConexion();
+        try (Connection con = ConexionDB.getConexion();
                 PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, inscripcion.getIdEstudiante());
@@ -95,7 +95,7 @@ public class InscripcionCursoDao {
 
     public boolean eliminarInscripcion(int id) {
         String sql = "DELETE FROM inscripcion_curso WHERE id_inscripcion = ?";
-        try (Connection con = ConexionPostgresDatabase.getConexion();
+        try (Connection con = ConexionDB.getConexion();
                 PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, id);

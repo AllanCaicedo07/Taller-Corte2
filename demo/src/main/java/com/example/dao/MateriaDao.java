@@ -1,7 +1,7 @@
 package com.example.dao;
 
-import com.uniajc.config.ConexionPostgresDatabase;
-import com.uniajc.modelo.Materia;
+import com.example.DB.ConexionDB;
+import com.example.Model.Materia;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ public class MateriaDao {
     // ── Crear ────────────────────────────────────────────────────────────────
     public boolean crearMateria(Materia materia) {
         String sql = "INSERT INTO materia (nombre_materia, creditos) VALUES (?, ?)";
-        try (Connection con = ConexionPostgresDatabase.getConexion();
+        try (Connection con = ConexionDB.getConexion();
                 PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, materia.getNombreMateria());
@@ -29,7 +29,7 @@ public class MateriaDao {
     public List<Materia> listarMaterias() {
         List<Materia> lista = new ArrayList<>();
         String sql = "SELECT * FROM materia";
-        try (Connection con = ConexionPostgresDatabase.getConexion();
+        try (Connection con = ConexionDB.getConexion();
                 Statement st = con.createStatement();
                 ResultSet rs = st.executeQuery(sql)) {
 
@@ -45,7 +45,7 @@ public class MateriaDao {
     // ── Buscar por ID ─────────────────────────────────────────────────────────
     public Materia buscarPorId(int id) {
         String sql = "SELECT * FROM materia WHERE id_materia = ?";
-        try (Connection con = ConexionPostgresDatabase.getConexion();
+        try (Connection con = ConexionDB.getConexion();
                 PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, id);
@@ -62,7 +62,7 @@ public class MateriaDao {
     // ── Actualizar ────────────────────────────────────────────────────────────
     public boolean actualizarMateria(Materia materia) {
         String sql = "UPDATE materia SET nombre_materia = ?, creditos = ? WHERE id_materia = ?";
-        try (Connection con = ConexionPostgresDatabase.getConexion();
+        try (Connection con = ConexionDB.getConexion();
                 PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, materia.getNombreMateria());
@@ -79,7 +79,7 @@ public class MateriaDao {
     // ── Eliminar ──────────────────────────────────────────────────────────────
     public boolean eliminarMateria(int id) {
         String sql = "DELETE FROM materia WHERE id_materia = ?";
-        try (Connection con = ConexionPostgresDatabase.getConexion();
+        try (Connection con = ConexionDB.getConexion();
                 PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, id);
