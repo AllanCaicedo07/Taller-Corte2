@@ -78,7 +78,7 @@ public class ConfiguracionApp {
                         "║                                                      ║\n" +
                         "║  Ubicaciones validas:                                ║\n" +
                         "║  1. Junto al programa:  ./config.properties          ║\n" +
-                        "║  2. Carpeta usuario:    ~/supermercado/config.prop.. ║\n" +
+                        "║  2. Carpeta usuario:    ~/User/config.prop.. ║\n" +
                         "║                                                      ║\n" +
                         "║  Usa config.properties.template como guia.           ║\n" +
                         "╚══════════════════════════════════════════════════════╝");

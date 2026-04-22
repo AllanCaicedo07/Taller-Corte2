@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 
+import com.example.DB.ConexionDB;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +19,9 @@ import java.util.List;
 public class DocenteController {
 
     // ===================== URL de conexión a Neon =====================
-    private static final String URL      = "jdbc:postgresql://<host>.neon.tech/<dbname>?sslmode=require";
-    private static final String USER     = "tu_usuario";
-    private static final String PASSWORD = "tu_contraseña";
+    // Conexión centralizada via ConexionDB
+    
+    
 
     // ===================== Componentes de la vista =====================
     private TableView<Docente>       tablaDocentes;
@@ -51,7 +52,7 @@ public class DocenteController {
         List<Docente> docentes = new ArrayList<>();
         String sql = "SELECT id_docente, nombre, especialidad FROM Docente ORDER BY id_docente";
 
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection conn = ConexionDB.getConexion();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
@@ -90,7 +91,7 @@ public class DocenteController {
     private void crearDocente() {
         String sql = "INSERT INTO Docente (nombre, especialidad) VALUES (?, ?)";
 
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection conn = ConexionDB.getConexion();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, txtNombre.getText().trim());
@@ -112,7 +113,7 @@ public class DocenteController {
     private void actualizarDocente() {
         String sql = "UPDATE Docente SET nombre = ?, especialidad = ? WHERE id_docente = ?";
 
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection conn = ConexionDB.getConexion();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, txtNombre.getText().trim());
@@ -138,7 +139,7 @@ public class DocenteController {
             txtNombre.setText(seleccionado.getNombre());
             txtEspecialidad.setText(seleccionado.getEspecialidad());
             btnGuardar.setText("Actualizar");
-            lblMensaje.setText("Editando: " + seleccionado.getNombre());
+            if (lblMensaje != null) lblMensaje.setText("Editando: " + seleccionado.getNombre());
         }
     }
 
@@ -165,15 +166,16 @@ public class DocenteController {
         docenteSeleccionado = null;
         btnGuardar.setText("Guardar");
         tablaDocentes.getSelectionModel().clearSelection();
-        lblMensaje.setText("");
+        if (lblMensaje != null) lblMensaje.setText("");
     }
 
     /**
      * Muestra un mensaje en el label.
      */
     private void mostrarMensaje(String mensaje, boolean esError) {
-        lblMensaje.setText(mensaje);
-        lblMensaje.setStyle(esError
+        if (lblMensaje != null) {
+            lblMensaje.setText(mensaje);
+            lblMensaje.setStyle(esError
             ? "-fx-text-fill: #e74c3c; -fx-font-weight: bold;"
             : "-fx-text-fill: #27ae60; -fx-font-weight: bold;");
     }

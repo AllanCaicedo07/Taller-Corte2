@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.DB.ConexionDB;
 import com.example.Model.Materia;
 import com.example.View.MateriaView;
 import javafx.collections.FXCollections;
@@ -13,21 +14,20 @@ import java.util.List;
 /**
  * Controlador: MateriaController
  * Maneja la lógica entre la vista MateriaView
- * y la base de datos PostgreSQL en Neon mediante JDBC.
+ * y la base de datos mediante ConexionDB (lee config.properties).
+ *
+ * CORRECCIÓN: Se eliminaron las credenciales hardcodeadas y se
+ * reemplazaron por ConexionDB.getConexion(), igual que el resto
+ * de controladores del proyecto.
  */
 public class MateriaController {
 
-    // ===================== Conexión Neon =====================
-    private static final String URL      = "jdbc:postgresql://<host>.neon.tech/<dbname>?sslmode=require";
-    private static final String USER     = "tu_usuario";
-    private static final String PASSWORD = "tu_contraseña";
-
     // ===================== Componentes de la vista =====================
-    private TableView<Materia>    tablaMateria;
-    private TextField             txtNombreMateria;
-    private TextField             txtCreditos;
-    private Label                 lblMensaje;
-    private Button                btnGuardar;
+    private TableView<Materia> tablaMateria;
+    private TextField          txtNombreMateria;
+    private TextField          txtCreditos;
+    private Label              lblMensaje;
+    private Button             btnGuardar;
 
     // ===================== Estado interno =====================
     private Materia materiaSeleccionada = null;
@@ -35,11 +35,11 @@ public class MateriaController {
     // ===================== Constructor =====================
 
     public MateriaController(MateriaView vista) {
-        this.tablaMateria = vista.getTablaMateria();
+        this.tablaMateria     = vista.getTablaMateria();
         this.txtNombreMateria = vista.getTxtNombreMateria();
-        this.txtCreditos = vista.getTxtCreditos();
-        this.lblMensaje = vista.getLblMensaje();
-        this.btnGuardar = vista.getBtnGuardar();
+        this.txtCreditos      = vista.getTxtCreditos();
+        this.lblMensaje       = vista.getLblMensaje();
+        this.btnGuardar       = vista.getBtnGuardar();
     }
 
     // ===================== Operaciones CRUD =====================
@@ -51,7 +51,7 @@ public class MateriaController {
         List<Materia> materias = new ArrayList<>();
         String sql = "SELECT id_materia, nombre_materia, creditos FROM Materia ORDER BY id_materia";
 
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection conn = ConexionDB.getConexion();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
@@ -90,7 +90,7 @@ public class MateriaController {
     private void crearMateria() {
         String sql = "INSERT INTO Materia (nombre_materia, creditos) VALUES (?, ?)";
 
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection conn = ConexionDB.getConexion();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, txtNombreMateria.getText().trim());
@@ -112,7 +112,7 @@ public class MateriaController {
     private void actualizarMateria() {
         String sql = "UPDATE Materia SET nombre_materia = ?, creditos = ? WHERE id_materia = ?";
 
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection conn = ConexionDB.getConexion();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, txtNombreMateria.getText().trim());
@@ -138,7 +138,7 @@ public class MateriaController {
             txtNombreMateria.setText(seleccionada.getNombreMateria());
             txtCreditos.setText(String.valueOf(seleccionada.getCreditos()));
             btnGuardar.setText("Actualizar");
-            lblMensaje.setText("Editando: " + seleccionada.getNombreMateria());
+            if (lblMensaje != null) lblMensaje.setText("Editando: " + seleccionada.getNombreMateria());
         }
     }
 
@@ -176,16 +176,18 @@ public class MateriaController {
         materiaSeleccionada = null;
         btnGuardar.setText("Guardar");
         tablaMateria.getSelectionModel().clearSelection();
-        lblMensaje.setText("");
+        if (lblMensaje != null) lblMensaje.setText("");
     }
 
     /**
-     * Muestra un mensaje en el label.
+     * Muestra un mensaje en el label de estado.
      */
     private void mostrarMensaje(String mensaje, boolean esError) {
-        lblMensaje.setText(mensaje);
-        lblMensaje.setStyle(esError
-            ? "-fx-text-fill: #e74c3c; -fx-font-weight: bold;"
-            : "-fx-text-fill: #27ae60; -fx-font-weight: bold;");
+        if (lblMensaje != null) {
+            if (lblMensaje != null) lblMensaje.setText(mensaje);
+            lblMensaje.setStyle(esError
+                ? "-fx-text-fill: #e74c3c; -fx-font-weight: bold;"
+                : "-fx-text-fill: #27ae60; -fx-font-weight: bold;");
+        }
     }
 }

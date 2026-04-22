@@ -2,333 +2,180 @@ package com.example.View;
 
 import com.example.controller.EstudianteController;
 import com.example.Model.Estudiante;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.*;
+import javafx.stage.Stage;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.JTableHeader;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.List;
+/**
+ * Vista: EstudianteView
+ * Reescrita en JavaFX puro para ser compatible con el resto del proyecto.
+ * Operaciones: Listar, Crear, Actualizar, Eliminar.
+ */
+public class EstudianteView {
 
-public class EstudianteView extends JFrame {
+    // ===================== Componentes =====================
+    private TableView<Estudiante>            tablaEstudiantes;
+    private TableColumn<Estudiante, Integer> colId;
+    private TableColumn<Estudiante, String>  colNombre;
+    private TableColumn<Estudiante, String>  colApellido;
+    private TableColumn<Estudiante, String>  colEmail;
 
-    // ── Colores ──
-    private static final Color BG_DARK       = new Color(15, 23, 42);
-    private static final Color BG_CARD       = new Color(30, 41, 59);
-    private static final Color BG_INPUT      = new Color(51, 65, 85);
-    private static final Color ACCENT       = new Color(56, 189, 248);
-    private static final Color DANGER        = new Color(239, 68, 68);
-    private static final Color SUCCESS       = new Color(34, 197, 94);
-    private static final Color TEXT_PRIMARY  = new Color(241, 245, 249);
-    private static final Color TEXT_MUTED    = new Color(148, 163, 184);
-    private static final Color BORDER_COLOR  = new Color(71, 85, 105);
+    private TextField txtNombre;
+    private TextField txtApellido;
+    private TextField txtEmail;
+    private Label     lblMensaje;
+    private Button    btnGuardar;
+    private Button    btnEliminar;
 
-    // ── Componentes ──
-    private JTextField txtId, txtNombre, txtApellido, txtEmail, txtBuscar;
-    private JTable tabla;
-    private DefaultTableModel modeloTabla;
-    private JLabel lblStatus;
+    private EstudianteController controller;
+    private Estudiante estudianteSeleccionado = null;
 
-    private EstudianteController controller = new EstudianteController();
+    public void start(Stage stage) {
+        controller = new EstudianteController();
 
-    public EstudianteView() {
-        setTitle("Sistema Escolar · Gestión de Estudiantes");
-        setSize(950, 650);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        setResizable(false);
+        stage.setTitle("Gestión de Estudiantes");
+        stage.setScene(new Scene(construirLayout(), 900, 560));
+        stage.show();
 
-        // Panel raíz
-        JPanel root = new JPanel(new BorderLayout());
-        root.setBackground(BG_DARK);
-        root.setBorder(new EmptyBorder(20, 24, 20, 24));
-
-        root.add(crearHeader(),       BorderLayout.NORTH);
-        root.add(crearPanelCentral(), BorderLayout.CENTER);
-        root.add(crearStatusBar(),    BorderLayout.SOUTH);
-
-        setContentPane(root);
-        cargarTabla();
+        cargarEstudiantes();
     }
 
-    // ─────────────── HEADER ───────────────
-    private JPanel crearHeader() {
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(BG_DARK);
-        panel.setBorder(new EmptyBorder(0, 0, 18, 0));
+    // ===================== Layout =====================
 
-        JLabel titulo = new JLabel("Estudiantes");
-        titulo.setFont(new Font("Segoe UI", Font.BOLD, 26));
-        titulo.setForeground(TEXT_PRIMARY);
-
-        JLabel subtitulo = new JLabel("Gestión del módulo de estudiantes");
-        subtitulo.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        subtitulo.setForeground(TEXT_MUTED);
-
-        JPanel textos = new JPanel();
-        textos.setLayout(new BoxLayout(textos, BoxLayout.Y_AXIS));
-        textos.setBackground(BG_DARK);
-        textos.add(titulo);
-        textos.add(Box.createVerticalStrut(2));
-        textos.add(subtitulo);
-
-        // Buscador
-        JPanel buscarPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 0));
-        buscarPanel.setBackground(BG_DARK);
-        txtBuscar = crearInput("Buscar por nombre...", 180);
-        JButton btnBuscar = crearBoton("🔍 Buscar", ACCENT, BG_DARK);
-        btnBuscar.addActionListener(e -> buscarEstudiante());
-        JButton btnRefresh = crearBoton("↺ Todos", BG_INPUT, TEXT_PRIMARY);
-        btnRefresh.addActionListener(e -> cargarTabla());
-        buscarPanel.add(txtBuscar);
-        buscarPanel.add(btnBuscar);
-        buscarPanel.add(btnRefresh);
-
-        panel.add(textos,     BorderLayout.WEST);
-        panel.add(buscarPanel, BorderLayout.EAST);
-        return panel;
+    private BorderPane construirLayout() {
+        BorderPane root = new BorderPane();
+        root.setStyle("-fx-background-color: #1e1e2e;");
+        root.setTop(construirEncabezado());
+        root.setLeft(construirFormulario());
+        root.setCenter(construirTabla());
+        return root;
     }
 
-    // ─────────────── PANEL CENTRAL ───────────────
-    private JPanel crearPanelCentral() {
-        JPanel panel = new JPanel(new BorderLayout(16, 0));
-        panel.setBackground(BG_DARK);
+    // ===================== Encabezado =====================
 
-        panel.add(crearFormulario(), BorderLayout.WEST);
-        panel.add(crearTabla(),      BorderLayout.CENTER);
+    private VBox construirEncabezado() {
+        Label titulo = new Label("Gestión de Estudiantes");
+        titulo.setStyle("-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;");
 
-        return panel;
+        Label subtitulo = new Label("Crear, Editar, Eliminar y Listar Estudiantes");
+        subtitulo.setStyle("-fx-text-fill: #a0a0c0; -fx-font-size: 13px;");
+
+        VBox encabezado = new VBox(4, titulo, subtitulo);
+        encabezado.setAlignment(Pos.CENTER);
+        encabezado.setStyle("-fx-background-color: #2d2d44; -fx-padding: 16;");
+        return encabezado;
     }
 
-    // ─────────────── FORMULARIO ───────────────
-    private JPanel crearFormulario() {
-        JPanel card = new JPanel();
-        card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
-        card.setBackground(BG_CARD);
-        card.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(BORDER_COLOR, 1),
-            new EmptyBorder(20, 20, 20, 20)
-        ));
-        card.setPreferredSize(new Dimension(270, 0));
+    // ===================== Formulario =====================
 
-        JLabel lblForm = new JLabel("Datos del Estudiante");
-        lblForm.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        lblForm.setForeground(ACCENT);
-        lblForm.setAlignmentX(Component.LEFT_ALIGNMENT);
+    private VBox construirFormulario() {
+        Label lblTitulo = new Label("Formulario");
+        lblTitulo.setStyle("-fx-text-fill: #a0a0ff; -fx-font-size: 15px; -fx-font-weight: bold;");
 
-        JSeparator sep = new JSeparator();
-        sep.setForeground(BORDER_COLOR);
-        sep.setMaximumSize(new Dimension(Integer.MAX_VALUE, 1));
+        Label lblNombre = new Label("Nombre");
+        lblNombre.setStyle("-fx-text-fill: #ccccee; -fx-font-size: 12px;");
+        txtNombre = new TextField();
+        txtNombre.setPromptText("Ej: Juan");
+        aplicarEstiloCampo(txtNombre);
 
-        txtId       = crearInput("ID (auto)", 0);
-        txtId.setEditable(false);
-        txtId.setForeground(TEXT_MUTED);
+        Label lblApellido = new Label("Apellido");
+        lblApellido.setStyle("-fx-text-fill: #ccccee; -fx-font-size: 12px;");
+        txtApellido = new TextField();
+        txtApellido.setPromptText("Ej: Martínez");
+        aplicarEstiloCampo(txtApellido);
 
-        txtNombre   = crearInput("Ingrese nombre", 0);
-        txtApellido = crearInput("Ingrese apellido", 0);
-        txtEmail    = crearInput("correo@ejemplo.com", 0);
+        Label lblEmail = new Label("Email");
+        lblEmail.setStyle("-fx-text-fill: #ccccee; -fx-font-size: 12px;");
+        txtEmail = new TextField();
+        txtEmail.setPromptText("Ej: juan@email.com");
+        aplicarEstiloCampo(txtEmail);
 
-        card.add(lblForm);
-        card.add(Box.createVerticalStrut(10));
-        card.add(sep);
-        card.add(Box.createVerticalStrut(16));
-        card.add(crearCampo("ID",       txtId));
-        card.add(Box.createVerticalStrut(10));
-        card.add(crearCampo("Nombre",   txtNombre));
-        card.add(Box.createVerticalStrut(10));
-        card.add(crearCampo("Apellido", txtApellido));
-        card.add(Box.createVerticalStrut(10));
-        card.add(crearCampo("Email",    txtEmail));
-        card.add(Box.createVerticalStrut(20));
-        card.add(crearBotones());
-        card.add(Box.createVerticalGlue());
+        lblMensaje = new Label("");
+        lblMensaje.setWrapText(true);
+        lblMensaje.setStyle("-fx-font-size: 12px;");
 
-        return card;
+        btnGuardar = crearBoton("Guardar", "#5b5bff");
+        btnGuardar.setOnAction(e -> guardarEstudiante());
+
+        btnEliminar = crearBoton("Eliminar", "#e74c3c");
+        btnEliminar.setOnAction(e -> eliminarEstudiante());
+        btnEliminar.setDisable(true);
+
+        Button btnLimpiar = crearBoton("Limpiar", "#444466");
+        btnLimpiar.setOnAction(e -> limpiarFormulario());
+
+        Button btnRecargar = crearBoton("↻ Recargar Lista", "#2d6a4f");
+        btnRecargar.setOnAction(e -> cargarEstudiantes());
+
+        Region spacer = new Region();
+        VBox.setVgrow(spacer, Priority.ALWAYS);
+
+        VBox formulario = new VBox(12,
+            lblTitulo, new Separator(),
+            lblNombre,   txtNombre,
+            lblApellido, txtApellido,
+            lblEmail,    txtEmail,
+            spacer,
+            lblMensaje, new Separator(),
+            btnGuardar, btnEliminar, btnLimpiar, btnRecargar
+        );
+        formulario.setStyle("-fx-background-color: #2d2d44; -fx-padding: 24;");
+        formulario.setMinWidth(260);
+        return formulario;
     }
 
-    private JPanel crearCampo(String label, JTextField campo) {
-        JPanel p = new JPanel();
-        p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
-        p.setBackground(BG_CARD);
-        p.setAlignmentX(Component.LEFT_ALIGNMENT);
-        p.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60));
+    // ===================== Tabla =====================
 
-        JLabel lbl = new JLabel(label);
-        lbl.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-        lbl.setForeground(TEXT_MUTED);
-        campo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 36));
-        campo.setAlignmentX(Component.LEFT_ALIGNMENT);
+    private VBox construirTabla() {
+        Label lblTitulo = new Label("Lista de Estudiantes");
+        lblTitulo.setStyle("-fx-text-fill: #a0a0ff; -fx-font-size: 15px; -fx-font-weight: bold;");
 
-        p.add(lbl);
-        p.add(Box.createVerticalStrut(4));
-        p.add(campo);
-        return p;
+        colId = new TableColumn<>("ID");
+        colId.setPrefWidth(55);
+        colId.setCellValueFactory(new PropertyValueFactory<>("idEstudiante"));
+
+        colNombre = new TableColumn<>("Nombre");
+        colNombre.setPrefWidth(180);
+        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+
+        colApellido = new TableColumn<>("Apellido");
+        colApellido.setPrefWidth(180);
+        colApellido.setCellValueFactory(new PropertyValueFactory<>("apellido"));
+
+        colEmail = new TableColumn<>("Email");
+        colEmail.setPrefWidth(240);
+        colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+
+        tablaEstudiantes = new TableView<>();
+        tablaEstudiantes.getColumns().addAll(colId, colNombre, colApellido, colEmail);
+        tablaEstudiantes.setStyle("-fx-background-color: #2d2d44; -fx-table-cell-border-color: #444466;");
+        tablaEstudiantes.setPlaceholder(new Label("No hay estudiantes registrados."));
+        VBox.setVgrow(tablaEstudiantes, Priority.ALWAYS);
+
+        tablaEstudiantes.getSelectionModel().selectedItemProperty().addListener(
+            (obs, anterior, seleccionado) -> onSeleccionTabla(seleccionado)
+        );
+
+        Label lblAyuda = new Label("💡 Haz clic en un estudiante para editarlo o eliminarlo.");
+        lblAyuda.setStyle("-fx-text-fill: #888899; -fx-font-size: 11px;");
+
+        VBox contenedor = new VBox(10, lblTitulo, new Separator(), tablaEstudiantes, lblAyuda);
+        contenedor.setStyle("-fx-padding: 20; -fx-background-color: #1e1e2e;");
+        return contenedor;
     }
 
-    private JPanel crearBotones() {
-        JPanel p = new JPanel(new GridLayout(2, 2, 8, 8));
-        p.setBackground(BG_CARD);
-        p.setAlignmentX(Component.LEFT_ALIGNMENT);
-        p.setMaximumSize(new Dimension(Integer.MAX_VALUE, 90));
+    // ===================== Lógica =====================
 
-        JButton btnGuardar   = crearBoton("💾 Guardar",   SUCCESS,     BG_DARK);
-        JButton btnActualizar = crearBoton("✏️ Actualizar", ACCENT,    BG_DARK);
-        JButton btnEliminar  = crearBoton("🗑 Eliminar",   DANGER,     BG_DARK);
-        JButton btnLimpiar   = crearBoton("✕ Limpiar",    BG_INPUT,   TEXT_PRIMARY);
-
-        btnGuardar.addActionListener(e   -> guardarEstudiante());
-        btnActualizar.addActionListener(e -> actualizarEstudiante());
-        btnEliminar.addActionListener(e  -> eliminarEstudiante());
-        btnLimpiar.addActionListener(e   -> limpiarFormulario());
-
-        p.add(btnGuardar);
-        p.add(btnActualizar);
-        p.add(btnEliminar);
-        p.add(btnLimpiar);
-        return p;
-    }
-
-    // ─────────────── TABLA ───────────────
-    private JPanel crearTabla() {
-        JPanel card = new JPanel(new BorderLayout());
-        card.setBackground(BG_CARD);
-        card.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(BORDER_COLOR, 1),
-            new EmptyBorder(16, 16, 16, 16)
-        ));
-
-        String[] columnas = {"ID", "Nombre", "Apellido", "Email"};
-        modeloTabla = new DefaultTableModel(columnas, 0) {
-            @Override public boolean isCellEditable(int r, int c) { return false; }
-        };
-
-        tabla = new JTable(modeloTabla);
-        tabla.setBackground(BG_CARD);
-        tabla.setForeground(TEXT_PRIMARY);
-        tabla.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        tabla.setRowHeight(38);
-        tabla.setShowGrid(false);
-        tabla.setIntercellSpacing(new Dimension(0, 0));
-        tabla.setSelectionBackground(new Color(56, 189, 248, 40));
-        tabla.setSelectionForeground(TEXT_PRIMARY);
-        tabla.setFocusable(false);
-
-        // Header
-        JTableHeader header = tabla.getTableHeader();
-        header.setBackground(BG_INPUT);
-        header.setForeground(ACCENT);
-        header.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        header.setBorder(BorderFactory.createEmptyBorder());
-        header.setReorderingAllowed(false);
-
-        // Alineación centrada para ID
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-        centerRenderer.setBackground(BG_CARD);
-        centerRenderer.setForeground(TEXT_MUTED);
-        tabla.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
-        tabla.getColumnModel().getColumn(0).setPreferredWidth(50);
-        tabla.getColumnModel().getColumn(0).setMaxWidth(60);
-
-        // Renderer alternado para filas
-        tabla.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable t, Object v,
-                    boolean sel, boolean foc, int row, int col) {
-                super.getTableCellRendererComponent(t, v, sel, foc, row, col);
-                setBackground(sel ? new Color(56, 189, 248, 30)
-                                  : (row % 2 == 0 ? BG_CARD : new Color(40, 55, 75)));
-                setForeground(col == 0 ? TEXT_MUTED : TEXT_PRIMARY);
-                setFont(new Font("Segoe UI", Font.PLAIN, 13));
-                setBorder(new EmptyBorder(0, 10, 0, 10));
-                setHorizontalAlignment(col == 0 ? CENTER : LEFT);
-                return this;
-            }
-        });
-
-        // Click en fila → llena formulario
-        tabla.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int fila = tabla.getSelectedRow();
-                if (fila >= 0) {
-                    txtId.setText(modeloTabla.getValueAt(fila, 0).toString());
-                    txtNombre.setText(modeloTabla.getValueAt(fila, 1).toString());
-                    txtApellido.setText(modeloTabla.getValueAt(fila, 2).toString());
-                    txtEmail.setText(modeloTabla.getValueAt(fila, 3).toString());
-                }
-            }
-        });
-
-        JScrollPane scroll = new JScrollPane(tabla);
-        scroll.setBackground(BG_CARD);
-        scroll.setBorder(BorderFactory.createEmptyBorder());
-        scroll.getViewport().setBackground(BG_CARD);
-
-        card.add(scroll, BorderLayout.CENTER);
-        return card;
-    }
-
-    // ─────────────── STATUS BAR ───────────────
-    private JPanel crearStatusBar() {
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        panel.setBackground(BG_DARK);
-        panel.setBorder(new EmptyBorder(10, 0, 0, 0));
-
-        lblStatus = new JLabel("✔ Sistema listo");
-        lblStatus.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-        lblStatus.setForeground(TEXT_MUTED);
-        panel.add(lblStatus);
-        return panel;
-    }
-
-    // ─────────────── HELPERS UI ───────────────
-    private JTextField crearInput(String placeholder, int cols) {
-        JTextField field = cols > 0 ? new JTextField(cols) : new JTextField();
-        field.setBackground(BG_INPUT);
-        field.setForeground(TEXT_PRIMARY);
-        field.setCaretColor(ACCENT);
-        field.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        field.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(BORDER_COLOR, 1),
-            new EmptyBorder(6, 10, 6, 10)
-        ));
-        field.putClientProperty("placeholder", placeholder);
-        return field;
-    }
-
-    private JButton crearBoton(String texto, Color bg, Color fg) {
-        JButton btn = new JButton(texto);
-        btn.setBackground(bg);
-        btn.setForeground(fg.equals(BG_DARK) ? Color.WHITE : fg);
-        btn.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        btn.setBorder(new EmptyBorder(8, 14, 8, 14));
-        btn.setFocusPainted(false);
-        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btn.setOpaque(true);
-        btn.addMouseListener(new MouseAdapter() {
-            @Override public void mouseEntered(MouseEvent e) {
-                btn.setBackground(bg.brighter());
-            }
-            @Override public void mouseExited(MouseEvent e) {
-                btn.setBackground(bg);
-            }
-        });
-        return btn;
-    }
-
-    // ─────────────── ACCIONES ───────────────
-    private void cargarTabla() {
-        modeloTabla.setRowCount(0);
-        List<Estudiante> lista = controller.listarEstudiantes();
-        for (Estudiante e : lista) {
-            modeloTabla.addRow(new Object[]{
-                e.getIdEstudiante(), e.getNombre(), e.getApellido(), e.getEmail()
-            });
-        }
-        setStatus("✔ " + lista.size() + " estudiante(s) cargados.", TEXT_MUTED);
+    private void cargarEstudiantes() {
+        ObservableList<Estudiante> lista =
+            FXCollections.observableArrayList(controller.listarEstudiantes());
+        tablaEstudiantes.setItems(lista);
+        mostrarMensaje("✅ " + lista.size() + " estudiante(s) cargado(s).", false);
     }
 
     private void guardarEstudiante() {
@@ -337,100 +184,98 @@ public class EstudianteView extends JFrame {
         String email    = txtEmail.getText().trim();
 
         if (nombre.isEmpty() || apellido.isEmpty() || email.isEmpty()) {
-            setStatus("⚠ Completa todos los campos.", DANGER);
+            mostrarMensaje("⚠️ Todos los campos son obligatorios.", true);
             return;
         }
-        boolean ok = controller.crearEstudiante(nombre, apellido, email);
-        if (ok) {
-            setStatus("✔ Estudiante guardado correctamente.", SUCCESS);
-            limpiarFormulario();
-            cargarTabla();
-        } else {
-            setStatus("✖ No se pudo guardar el estudiante.", DANGER);
-        }
-    }
 
-    private void actualizarEstudiante() {
-        if (txtId.getText().isEmpty()) {
-            setStatus("⚠ Selecciona un estudiante de la tabla.", DANGER);
-            return;
-        }
-        int id = Integer.parseInt(txtId.getText());
-        boolean ok = controller.actualizarEstudiante(
-            id,
-            txtNombre.getText().trim(),
-            txtApellido.getText().trim(),
-            txtEmail.getText().trim()
-        );
-        if (ok) {
-            setStatus("✔ Estudiante actualizado.", SUCCESS);
-            limpiarFormulario();
-            cargarTabla();
+        if (estudianteSeleccionado == null) {
+            boolean ok = controller.crearEstudiante(nombre, apellido, email);
+            mostrarMensaje(ok ? "✅ Estudiante creado." : "❌ Error al crear.", !ok);
         } else {
-            setStatus("✖ No se pudo actualizar.", DANGER);
+            boolean ok = controller.actualizarEstudiante(
+                estudianteSeleccionado.getIdEstudiante(), nombre, apellido, email);
+            mostrarMensaje(ok ? "✅ Estudiante actualizado." : "❌ Error al actualizar.", !ok);
         }
+
+        limpiarFormulario();
+        cargarEstudiantes();
     }
 
     private void eliminarEstudiante() {
-        if (txtId.getText().isEmpty()) {
-            setStatus("⚠ Selecciona un estudiante de la tabla.", DANGER);
-            return;
-        }
-        int opcion = JOptionPane.showConfirmDialog(this,
-            "¿Eliminar el estudiante con ID " + txtId.getText() + "?",
-            "Confirmar eliminación",
-            JOptionPane.YES_NO_OPTION,
-            JOptionPane.WARNING_MESSAGE
-        );
-        if (opcion == JOptionPane.YES_OPTION) {
-            int id = Integer.parseInt(txtId.getText());
-            boolean ok = controller.eliminarEstudiante(id);
-            if (ok) {
-                setStatus("✔ Estudiante eliminado.", SUCCESS);
+        if (estudianteSeleccionado == null) return;
+
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION,
+            "¿Eliminar a " + estudianteSeleccionado.getNombreCompleto() + "?",
+            ButtonType.YES, ButtonType.NO);
+        confirm.setTitle("Confirmar eliminación");
+        confirm.showAndWait().ifPresent(respuesta -> {
+            if (respuesta == ButtonType.YES) {
+                boolean ok = controller.eliminarEstudiante(
+                    estudianteSeleccionado.getIdEstudiante());
+                mostrarMensaje(ok ? "✅ Estudiante eliminado." : "❌ Error al eliminar.", !ok);
                 limpiarFormulario();
-                cargarTabla();
-            } else {
-                setStatus("✖ No se pudo eliminar.", DANGER);
+                cargarEstudiantes();
             }
-        }
+        });
     }
 
-    private void buscarEstudiante() {
-        String texto = txtBuscar.getText().trim().toLowerCase();
-        modeloTabla.setRowCount(0);
-        List<Estudiante> lista = controller.listarEstudiantes();
-        for (Estudiante e : lista) {
-            if (e.getNombreCompleto().toLowerCase().contains(texto)
-                    || e.getEmail().toLowerCase().contains(texto)) {
-                modeloTabla.addRow(new Object[]{
-                    e.getIdEstudiante(), e.getNombre(), e.getApellido(), e.getEmail()
-                });
-            }
+    private void onSeleccionTabla(Estudiante seleccionado) {
+        if (seleccionado != null) {
+            estudianteSeleccionado = seleccionado;
+            txtNombre.setText(seleccionado.getNombre());
+            txtApellido.setText(seleccionado.getApellido());
+            txtEmail.setText(seleccionado.getEmail());
+            btnGuardar.setText("Actualizar");
+            btnEliminar.setDisable(false);
+            mostrarMensaje("Editando: " + seleccionado.getNombreCompleto(), false);
         }
-        setStatus("🔍 " + modeloTabla.getRowCount() + " resultado(s) encontrados.", ACCENT);
     }
 
     private void limpiarFormulario() {
-        txtId.setText("");
-        txtNombre.setText("");
-        txtApellido.setText("");
-        txtEmail.setText("");
-        tabla.clearSelection();
+        txtNombre.clear();
+        txtApellido.clear();
+        txtEmail.clear();
+        estudianteSeleccionado = null;
+        btnGuardar.setText("Guardar");
+        btnEliminar.setDisable(true);
+        tablaEstudiantes.getSelectionModel().clearSelection();
+        if (lblMensaje != null) lblMensaje.setText("");
     }
 
-    private void setStatus(String mensaje, Color color) {
-        lblStatus.setText(mensaje);
-        lblStatus.setForeground(color);
+    private void mostrarMensaje(String mensaje, boolean esError) {
+        if (lblMensaje != null) {
+            lblMensaje.setText(mensaje);
+            lblMensaje.setStyle(esError
+                ? "-fx-text-fill: #e74c3c; -fx-font-weight: bold;"
+                : "-fx-text-fill: #27ae60; -fx-font-weight: bold;");
+        }
     }
 
-    // ─────────────── MAIN ───────────────
-    public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception ignored) {}
+    // ===================== Estilos =====================
 
-        SwingUtilities.invokeLater(() -> {
-            new EstudianteView().setVisible(true);
-        });
+    private void aplicarEstiloCampo(TextField campo) {
+        campo.setStyle(
+            "-fx-background-color: #1e1e2e;" +
+            "-fx-text-fill: white;" +
+            "-fx-prompt-text-fill: #666688;" +
+            "-fx-border-color: #444466;" +
+            "-fx-border-radius: 6;" +
+            "-fx-background-radius: 6;" +
+            "-fx-padding: 8;"
+        );
+    }
+
+    private Button crearBoton(String texto, String color) {
+        Button btn = new Button(texto);
+        btn.setMaxWidth(Double.MAX_VALUE);
+        btn.setStyle(
+            "-fx-background-color: " + color + ";" +
+            "-fx-text-fill: white;" +
+            "-fx-font-weight: bold;" +
+            "-fx-background-radius: 8;" +
+            "-fx-padding: 10;" +
+            "-fx-cursor: hand;"
+        );
+        return btn;
     }
 }

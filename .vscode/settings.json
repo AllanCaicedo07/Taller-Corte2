@@ -1,3 +1,13 @@
 {
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+        "java.project.sourcePaths": [
+            "demo/src/main/java"
+        ],
+    
+    "java.project.referencedLibraries": [
+        "demo/target/dependency/*.jar"
+    ],
+    "java.debug.settings.vmArgs": "--module-path demo/target/dependency --add-modules javafx.controls,javafx.fxml"
 }
+
+
