@@ -1,7 +1,7 @@
 package com.example.dao;
 
-import com.uniajc.config.ConexionPostgresDatabase;
-import com.uniajc.modelo.Grupo;
+import com.example.DB.ConexionDB;
+import com.example.Model.Grupo;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ public class GrupoDao {
 
     public boolean crearGrupo(Grupo grupo) {
         String sql = "INSERT INTO grupo (id_materia, id_docente, aula, horario) VALUES (?, ?, ?, ?)";
-        try (Connection con = ConexionPostgresDatabase.getConexion();
+        try (Connection con = ConexionDB.getConexion();
                 PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, grupo.getIdMateria());
@@ -29,7 +29,7 @@ public class GrupoDao {
     public List<Grupo> listarGrupos() {
         List<Grupo> lista = new ArrayList<>();
         String sql = "SELECT * FROM grupo";
-        try (Connection con = ConexionPostgresDatabase.getConexion();
+        try (Connection con = ConexionDB.getConexion();
                 Statement st = con.createStatement();
                 ResultSet rs = st.executeQuery(sql)) {
 
@@ -44,7 +44,7 @@ public class GrupoDao {
 
     public Grupo buscarPorId(int id) {
         String sql = "SELECT * FROM grupo WHERE id_grupo = ?";
-        try (Connection con = ConexionPostgresDatabase.getConexion();
+        try (Connection con = ConexionDB.getConexion();
                 PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, id);
@@ -60,7 +60,7 @@ public class GrupoDao {
 
     public boolean actualizarGrupo(Grupo grupo) {
         String sql = "UPDATE grupo SET id_materia = ?, id_docente = ?, aula = ?, horario = ? WHERE id_grupo = ?";
-        try (Connection con = ConexionPostgresDatabase.getConexion();
+        try (Connection con = ConexionDB.getConexion();
                 PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, grupo.getIdMateria());
@@ -78,7 +78,7 @@ public class GrupoDao {
 
     public boolean eliminarGrupo(int id) {
         String sql = "DELETE FROM grupo WHERE id_grupo = ?";
-        try (Connection con = ConexionPostgresDatabase.getConexion();
+        try (Connection con = ConexionDB.getConexion();
                 PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, id);
