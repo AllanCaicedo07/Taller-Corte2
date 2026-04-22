@@ -5,14 +5,14 @@ public class InscripcionCurso {
     private int idInscripcion;
     private int idEstudiante;
     private int idGrupo;
-    private float notaFinal;
+    private Float notaFinal;
     private String estado;
 
     public InscripcionCurso() {
     }
 
     public InscripcionCurso(int idInscripcion, int idEstudiante, int idGrupo,
-            float notaFinal, String estado) {
+            Float notaFinal, String estado) {
         this.idInscripcion = idInscripcion;
         this.idEstudiante = idEstudiante;
         this.idGrupo = idGrupo;
@@ -44,11 +44,11 @@ public class InscripcionCurso {
         this.idGrupo = idGrupo;
     }
 
-    public float getNotaFinal() {
+    public Float getNotaFinal() {
         return notaFinal;
     }
 
-    public void setNotaFinal(float notaFinal) {
+    public void setNotaFinal(Float notaFinal) {
         this.notaFinal = notaFinal;
     }
 
