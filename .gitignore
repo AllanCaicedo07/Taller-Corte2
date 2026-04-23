@@ -9,7 +9,7 @@
 # ---------------------------------------------------------------
 src/main/resources/config.properties
 config.properties
-credenciales base de datos posgrest.txt
+
 
 # ---------------------------------------------------------------
 #  COMPILACION Y BUILD
@@ -18,11 +18,6 @@ target/
 *.class
 *.jar
 
-# ---------------------------------------------------------------
-#  REPORTES Y PDFs GENERADOS
-#  Son archivos de salida, no de codigo fuente
-# ---------------------------------------------------------------
-reportes/
 
 # ---------------------------------------------------------------
 #  IDE Y SISTEMA OPERATIVO
