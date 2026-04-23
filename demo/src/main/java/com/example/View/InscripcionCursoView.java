@@ -45,10 +45,11 @@ public class InscripcionCursoView {
      * @param stage El Stage principal de JavaFX
      */
     public void start(Stage stage) {
+        BorderPane root = construirLayout();
         controller = new InscripcionCursoController(this);
 
         stage.setTitle("Gestión de Inscripciones");
-        stage.setScene(new Scene(construirLayout(), 1000, 580));
+        stage.setScene(new Scene(root, 1000, 580));
         stage.show();
 
         // Carga ComboBox y tabla al abrir la ventana

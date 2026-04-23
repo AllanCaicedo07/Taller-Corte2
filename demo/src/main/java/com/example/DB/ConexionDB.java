@@ -3,6 +3,7 @@ package com.example.DB;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * Singleton de conexion a la base de datos.
@@ -36,6 +37,7 @@ public class ConexionDB {
 
             conexion = DriverManager.getConnection(url, usuario, password);
             conexion.setAutoCommit(true);
+            establecerSearchPath(cfg);
 
             System.out.println("[DB] Conectado a " + cfg.getMotor().toUpperCase()
                     + " en " + cfg.getHost() + ":" + cfg.getPuerto()
@@ -45,6 +47,16 @@ public class ConexionDB {
             throw new SQLException(
                 "[DB] Driver JDBC no encontrado para motor: " + cfg.getMotor() +
                 "\nVerifica que la dependencia este en pom.xml.\n" + e.getMessage());
+        }
+    }
+
+    private static void establecerSearchPath(ConfiguracionApp cfg) throws SQLException {
+        String schema = cfg.getSchema();
+        if (schema != null && !schema.isBlank()) {
+            String quotedSchema = schema.replace("\"", "\"\"");
+            try (Statement stmt = conexion.createStatement()) {
+                stmt.execute("SET search_path TO \"" + quotedSchema + "\"");
+            }
         }
     }
 
