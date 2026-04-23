@@ -39,10 +39,11 @@ public class DocenteView {
      * @param stage El Stage principal de JavaFX
      */
     public void start(Stage stage) {
+        BorderPane root = construirLayout();
         controller = new DocenteController(this);
 
         stage.setTitle("Gestión de Docentes");
-        stage.setScene(new Scene(construirLayout(), 820, 540));
+        stage.setScene(new Scene(root, 820, 540));
         stage.show();
 
         // Carga los datos al abrir la ventana

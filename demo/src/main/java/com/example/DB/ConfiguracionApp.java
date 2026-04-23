@@ -1,5 +1,7 @@
 package com.example.DB;
 import java.io.*;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.Properties;
 
@@ -154,7 +156,18 @@ public class ConfiguracionApp {
     }
 
     public String getSchema() {
-        return get("db.schema", "Taller corte 2");
+        return stripQuotes(get("db.schema", "Taller corte 2"));
+    }
+
+    private String stripQuotes(String valor) {
+        if (valor == null) {
+            return null;
+        }
+        valor = valor.trim();
+        if (valor.startsWith("\"") && valor.endsWith("\"")) {
+            return valor.substring(1, valor.length() - 1).trim();
+        }
+        return valor;
     }
 
     // ---- Accesos directos de rutas ----
@@ -174,13 +187,14 @@ public class ConfiguracionApp {
                     "jdbc:postgresql://%s:%d/%s?sslmode=%s&currentSchema=%s&TimeZone=%s&connectTimeout=%d",
                     getHost(), getPuerto(), getNombreDB(),
                     isSsl() ? "require" : "disable",
-                    getSchema(),
-                    getZonaHoraria(), getTimeoutConex());
+                    URLEncoder.encode(getSchema(), StandardCharsets.UTF_8),
+                    URLEncoder.encode(getZonaHoraria(), StandardCharsets.UTF_8),
+                    getTimeoutConex());
 
             case "mysql" -> String.format(
                     "jdbc:mysql://%s:%d/%s?useSSL=%s&serverTimezone=%s&useUnicode=true&characterEncoding=UTF-8",
                     getHost(), getPuerto(), getNombreDB(),
-                    isSsl(), getZonaHoraria());
+                    isSsl(), URLEncoder.encode(getZonaHoraria(), StandardCharsets.UTF_8));
 
             default -> throw new RuntimeException(
                     "[Config] Motor no soportado: " + motor +

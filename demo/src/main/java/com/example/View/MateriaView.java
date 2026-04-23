@@ -39,11 +39,11 @@ public class MateriaView {
      * @param stage El Stage principal de JavaFX
      */
     public void start(Stage stage) {
-        // Instancia el controller y le pasa esta vista
+        BorderPane root = construirLayout();
         controller = new MateriaController(this);
 
         stage.setTitle("Gestión de Materias");
-        stage.setScene(new Scene(construirLayout(), 820, 540));
+        stage.setScene(new Scene(root, 820, 540));
         stage.show();
 
         // Carga los datos al abrir la ventana

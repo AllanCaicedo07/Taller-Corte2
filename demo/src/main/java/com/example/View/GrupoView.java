@@ -43,10 +43,11 @@ public class GrupoView {
      * @param stage El Stage principal de JavaFX
      */
     public void start(Stage stage) {
+        BorderPane root = construirLayout();
         controller = new GrupoController(this);
 
         stage.setTitle("Gestión de Grupos");
-        stage.setScene(new Scene(construirLayout(), 920, 560));
+        stage.setScene(new Scene(root, 920, 560));
         stage.show();
 
         // Carga ComboBox y tabla al abrir la ventana

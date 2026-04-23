@@ -7,7 +7,8 @@
             "request": "launch",
             "mainClass": "com.example.Main",
             "projectName": "demo",
-            "vmArgs": "--module-path demo/target/dependency --add-modules javafx.controls,javafx.fxml",
+            "preLaunchTask": "copy demo dependencies",
+            "vmArgs": "--module-path \"${workspaceFolder}/demo/target/dependency\" --add-modules javafx.controls,javafx.fxml",
             "workingDirectory": "${workspaceFolder}/demo"
         }
     ]
