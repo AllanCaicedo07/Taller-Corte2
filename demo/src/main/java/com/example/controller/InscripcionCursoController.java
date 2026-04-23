@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 
+import com.example.DB.ConexionDB;
 import java.sql.*;
 import java.util.*;
 
@@ -17,9 +18,9 @@ import java.util.*;
 public class InscripcionCursoController {
 
     // ===================== Conexión Neon =====================
-    private static final String URL      = "jdbc:postgresql://<host>.neon.tech/<dbname>?sslmode=require";
-    private static final String USER     = "tu_usuario";
-    private static final String PASSWORD = "tu_contraseña";
+    // Conexión centralizada via ConexionDB
+    
+    
 
     // ===================== Componentes de la vista =====================
     private TableView<InscripcionCurso>  tablaInscripciones;
@@ -69,7 +70,7 @@ public class InscripcionCursoController {
         estudianteItems.clear();
         String sql = "SELECT id_estudiante, nombre, apellido FROM Estudiante ORDER BY id_estudiante";
 
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection conn = ConexionDB.getConexion();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
@@ -96,7 +97,7 @@ public class InscripcionCursoController {
                      "FROM Grupo g JOIN Materia m ON g.id_materia = m.id_materia " +
                      "ORDER BY g.id_grupo";
 
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection conn = ConexionDB.getConexion();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
@@ -125,7 +126,7 @@ public class InscripcionCursoController {
         String sql = "SELECT id_inscripcion, id_estudiante, id_grupo, nota_final, estado " +
                      "FROM Inscripcion_Curso ORDER BY id_inscripcion";
 
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection conn = ConexionDB.getConexion();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
@@ -170,7 +171,7 @@ public class InscripcionCursoController {
         String sql = "INSERT INTO Inscripcion_Curso (id_estudiante, id_grupo, nota_final, estado) " +
                      "VALUES (?, ?, ?, ?)";
 
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection conn = ConexionDB.getConexion();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, mapaEstudiantes.get(cmbEstudiante.getValue()));
@@ -204,7 +205,7 @@ public class InscripcionCursoController {
         String sql = "UPDATE Inscripcion_Curso SET id_estudiante = ?, id_grupo = ?, " +
                      "nota_final = ?, estado = ? WHERE id_inscripcion = ?";
 
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection conn = ConexionDB.getConexion();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, mapaEstudiantes.get(cmbEstudiante.getValue()));
@@ -247,7 +248,7 @@ public class InscripcionCursoController {
 
             cmbEstado.setValue(seleccionada.getEstado());
             btnGuardar.setText("Actualizar");
-            lblMensaje.setText("Editando Inscripción ID: " + seleccionada.getIdInscripcion());
+            if (lblMensaje != null) lblMensaje.setText("Editando Inscripción ID: " + seleccionada.getIdInscripcion());
         }
     }
 
@@ -288,16 +289,18 @@ public class InscripcionCursoController {
         inscripcionSeleccionada = null;
         btnGuardar.setText("Guardar");
         tablaInscripciones.getSelectionModel().clearSelection();
-        lblMensaje.setText("");
+        if (lblMensaje != null) lblMensaje.setText("");
     }
 
     /**
      * Muestra un mensaje en el label.
      */
     private void mostrarMensaje(String mensaje, boolean esError) {
-        lblMensaje.setText(mensaje);
-        lblMensaje.setStyle(esError
-            ? "-fx-text-fill: #e74c3c; -fx-font-weight: bold;"
-            : "-fx-text-fill: #27ae60; -fx-font-weight: bold;");
+        if (lblMensaje != null) {
+            if (lblMensaje != null) lblMensaje.setText(mensaje);
+            lblMensaje.setStyle(esError
+                ? "-fx-text-fill: #e74c3c; -fx-font-weight: bold;"
+                : "-fx-text-fill: #27ae60; -fx-font-weight: bold;");
+        }
     }
 }

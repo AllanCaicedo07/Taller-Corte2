@@ -1,3 +1,31 @@
+<<<<<<< HEAD
+c:\Users\USUARIO\OneDrive - Unicamacho-academico\Documentos\UNICAMACHO ALLAN\SEMESTRE 4\programacion 2\git\Taller-Corte2\demo\src\main\java\com\example\controller\DocenteController.java
+c:\Users\USUARIO\OneDrive - Unicamacho-academico\Documentos\UNICAMACHO ALLAN\SEMESTRE 4\programacion 2\git\Taller-Corte2\demo\src\main\java\com\example\controller\EstudianteController.java
+c:\Users\USUARIO\OneDrive - Unicamacho-academico\Documentos\UNICAMACHO ALLAN\SEMESTRE 4\programacion 2\git\Taller-Corte2\demo\src\main\java\com\example\controller\GrupoController.java
+c:\Users\USUARIO\OneDrive - Unicamacho-academico\Documentos\UNICAMACHO ALLAN\SEMESTRE 4\programacion 2\git\Taller-Corte2\demo\src\main\java\com\example\controller\InscripcionCursoController.java
+c:\Users\USUARIO\OneDrive - Unicamacho-academico\Documentos\UNICAMACHO ALLAN\SEMESTRE 4\programacion 2\git\Taller-Corte2\demo\src\main\java\com\example\controller\MateriaController.java
+c:\Users\USUARIO\OneDrive - Unicamacho-academico\Documentos\UNICAMACHO ALLAN\SEMESTRE 4\programacion 2\git\Taller-Corte2\demo\src\main\java\com\example\dao\DocenteDao.java
+c:\Users\USUARIO\OneDrive - Unicamacho-academico\Documentos\UNICAMACHO ALLAN\SEMESTRE 4\programacion 2\git\Taller-Corte2\demo\src\main\java\com\example\dao\GrupoDao.java
+c:\Users\USUARIO\OneDrive - Unicamacho-academico\Documentos\UNICAMACHO ALLAN\SEMESTRE 4\programacion 2\git\Taller-Corte2\demo\src\main\java\com\example\dao\InscripcionCursoDao.java
+c:\Users\USUARIO\OneDrive - Unicamacho-academico\Documentos\UNICAMACHO ALLAN\SEMESTRE 4\programacion 2\git\Taller-Corte2\demo\src\main\java\com\example\dao\MateriaDao.java
+c:\Users\USUARIO\OneDrive - Unicamacho-academico\Documentos\UNICAMACHO ALLAN\SEMESTRE 4\programacion 2\git\Taller-Corte2\demo\src\main\java\com\example\DB\ConexionDB.java
+c:\Users\USUARIO\OneDrive - Unicamacho-academico\Documentos\UNICAMACHO ALLAN\SEMESTRE 4\programacion 2\git\Taller-Corte2\demo\src\main\java\com\example\DB\ConfiguracionApp.java
+c:\Users\USUARIO\OneDrive - Unicamacho-academico\Documentos\UNICAMACHO ALLAN\SEMESTRE 4\programacion 2\git\Taller-Corte2\demo\src\main\java\com\example\Main.java
+c:\Users\USUARIO\OneDrive - Unicamacho-academico\Documentos\UNICAMACHO ALLAN\SEMESTRE 4\programacion 2\git\Taller-Corte2\demo\src\main\java\com\example\Model\Docente.java
+c:\Users\USUARIO\OneDrive - Unicamacho-academico\Documentos\UNICAMACHO ALLAN\SEMESTRE 4\programacion 2\git\Taller-Corte2\demo\src\main\java\com\example\Model\Estudiante.java
+c:\Users\USUARIO\OneDrive - Unicamacho-academico\Documentos\UNICAMACHO ALLAN\SEMESTRE 4\programacion 2\git\Taller-Corte2\demo\src\main\java\com\example\Model\Grupo.java
+c:\Users\USUARIO\OneDrive - Unicamacho-academico\Documentos\UNICAMACHO ALLAN\SEMESTRE 4\programacion 2\git\Taller-Corte2\demo\src\main\java\com\example\Model\InscripcionCurso.java
+c:\Users\USUARIO\OneDrive - Unicamacho-academico\Documentos\UNICAMACHO ALLAN\SEMESTRE 4\programacion 2\git\Taller-Corte2\demo\src\main\java\com\example\Model\Materia.java
+c:\Users\USUARIO\OneDrive - Unicamacho-academico\Documentos\UNICAMACHO ALLAN\SEMESTRE 4\programacion 2\git\Taller-Corte2\demo\src\main\java\com\example\Services\DocenteService.java
+c:\Users\USUARIO\OneDrive - Unicamacho-academico\Documentos\UNICAMACHO ALLAN\SEMESTRE 4\programacion 2\git\Taller-Corte2\demo\src\main\java\com\example\Services\GrupoService.java
+c:\Users\USUARIO\OneDrive - Unicamacho-academico\Documentos\UNICAMACHO ALLAN\SEMESTRE 4\programacion 2\git\Taller-Corte2\demo\src\main\java\com\example\Services\InscripcionCursoService.java
+c:\Users\USUARIO\OneDrive - Unicamacho-academico\Documentos\UNICAMACHO ALLAN\SEMESTRE 4\programacion 2\git\Taller-Corte2\demo\src\main\java\com\example\Services\MateriaService.java
+c:\Users\USUARIO\OneDrive - Unicamacho-academico\Documentos\UNICAMACHO ALLAN\SEMESTRE 4\programacion 2\git\Taller-Corte2\demo\src\main\java\com\example\View\DocenteView.java
+c:\Users\USUARIO\OneDrive - Unicamacho-academico\Documentos\UNICAMACHO ALLAN\SEMESTRE 4\programacion 2\git\Taller-Corte2\demo\src\main\java\com\example\View\EstudianteView.java
+c:\Users\USUARIO\OneDrive - Unicamacho-academico\Documentos\UNICAMACHO ALLAN\SEMESTRE 4\programacion 2\git\Taller-Corte2\demo\src\main\java\com\example\View\GrupoView.java
+c:\Users\USUARIO\OneDrive - Unicamacho-academico\Documentos\UNICAMACHO ALLAN\SEMESTRE 4\programacion 2\git\Taller-Corte2\demo\src\main\java\com\example\View\InscripcionCursoView.java
+c:\Users\USUARIO\OneDrive - Unicamacho-academico\Documentos\UNICAMACHO ALLAN\SEMESTRE 4\programacion 2\git\Taller-Corte2\demo\src\main\java\com\example\View\MateriaView.java
+=======
 C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\controller\DocenteController.java
 C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\controller\EstudianteController.java
 C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\controller\GrupoController.java
@@ -26,3 +54,4 @@ C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Tal
 C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\View\GrupoView.java
 C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\View\InscripcionCursoView.java
 C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\View\MateriaView.java
+>>>>>>> 843f46bcadfa2c269d0e1f7032b0a4f4c46e387c
