@@ -2,4 +2,4 @@
 
 ### Allan Caicedo
 
-### Juan Gabiria
+### Juan Gaviria

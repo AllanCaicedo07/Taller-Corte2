@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 c:\Users\USUARIO\OneDrive - Unicamacho-academico\Documentos\UNICAMACHO ALLAN\SEMESTRE 4\programacion 2\git\Taller-Corte2\demo\src\main\java\com\example\controller\DocenteController.java
 c:\Users\USUARIO\OneDrive - Unicamacho-academico\Documentos\UNICAMACHO ALLAN\SEMESTRE 4\programacion 2\git\Taller-Corte2\demo\src\main\java\com\example\controller\EstudianteController.java
 c:\Users\USUARIO\OneDrive - Unicamacho-academico\Documentos\UNICAMACHO ALLAN\SEMESTRE 4\programacion 2\git\Taller-Corte2\demo\src\main\java\com\example\controller\GrupoController.java
@@ -24,3 +25,33 @@ c:\Users\USUARIO\OneDrive - Unicamacho-academico\Documentos\UNICAMACHO ALLAN\SEM
 c:\Users\USUARIO\OneDrive - Unicamacho-academico\Documentos\UNICAMACHO ALLAN\SEMESTRE 4\programacion 2\git\Taller-Corte2\demo\src\main\java\com\example\View\GrupoView.java
 c:\Users\USUARIO\OneDrive - Unicamacho-academico\Documentos\UNICAMACHO ALLAN\SEMESTRE 4\programacion 2\git\Taller-Corte2\demo\src\main\java\com\example\View\InscripcionCursoView.java
 c:\Users\USUARIO\OneDrive - Unicamacho-academico\Documentos\UNICAMACHO ALLAN\SEMESTRE 4\programacion 2\git\Taller-Corte2\demo\src\main\java\com\example\View\MateriaView.java
+=======
+C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\controller\DocenteController.java
+C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\controller\EstudianteController.java
+C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\controller\GrupoController.java
+C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\controller\InscripcionCursoController.java
+C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\controller\MateriaController.java
+C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\dao\DocenteDao.java
+C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\dao\EstudianteDao.java
+C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\dao\GrupoDao.java
+C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\dao\InscripcionCursoDao.java
+C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\dao\MateriaDao.java
+C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\DB\ConexionDB.java
+C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\DB\ConfiguracionApp.java
+C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\Main.java
+C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\Model\Docente.java
+C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\Model\Estudiante.java
+C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\Model\Grupo.java
+C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\Model\InscripcionCurso.java
+C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\Model\Materia.java
+C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\Services\DocenteService.java
+C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\Services\EstudianteService.java
+C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\Services\GrupoService.java
+C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\Services\InscripcionCursoService.java
+C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\Services\MateriaService.java
+C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\View\DocenteView.java
+C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\View\EstudianteView.java
+C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\View\GrupoView.java
+C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\View\InscripcionCursoView.java
+C:\Users\marti\OneDrive\Documentos\Universidad\4to Semestre\Programación II\Taller Corte 2\demo\src\main\java\com\example\View\MateriaView.java
+>>>>>>> 843f46bcadfa2c269d0e1f7032b0a4f4c46e387c
