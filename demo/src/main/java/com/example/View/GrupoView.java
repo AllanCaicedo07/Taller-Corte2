@@ -155,6 +155,7 @@ public class GrupoView {
 
     // ===================== Tabla =====================
 
+    @SuppressWarnings("unchecked")
     private VBox construirTabla() {
         Label lblTitulo = new Label("Lista de Grupos");
         lblTitulo.setStyle("-fx-text-fill: #a0a0ff; -fx-font-size: 15px; -fx-font-weight: bold;");
