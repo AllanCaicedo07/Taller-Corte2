@@ -184,7 +184,7 @@ public class InscripcionCursoView {
 
         tablaInscripciones = new TableView<>();
         tablaInscripciones.getColumns().addAll(
-            colId, colIdEstudiante, colIdGrupo, colNotaFinal, colEstado
+            java.util.Arrays.asList(colId, colIdEstudiante, colIdGrupo, colNotaFinal, colEstado)
         );
         tablaInscripciones.setStyle(
             "-fx-background-color: #2d2d44; -fx-table-cell-border-color: #444466;"

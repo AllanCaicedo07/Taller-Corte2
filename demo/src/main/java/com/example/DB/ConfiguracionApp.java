@@ -21,9 +21,11 @@ public class ConfiguracionApp {
 
     // ---- Rutas de busqueda en orden de prioridad ----
     private static final Path[] RUTAS_BUSQUEDA = {
-            Paths.get(ARCHIVO), // 1. Junto al JAR
-            Paths.get(System.getProperty("user.home"), "Taller corte 2", ARCHIVO), // 2. Carpeta usuario
-            Paths.get("src", "main", "resources", ARCHIVO) // 3. Dev en VS Code
+            Paths.get(ARCHIVO), // 1. Junto al JAR o desde demo/
+            Paths.get("..", ARCHIVO), // 2. Proyecto padre cuando se ejecuta desde demo/
+            Paths.get("..", "..", ARCHIVO), // 3. Dos niveles arriba si se ejecuta desde demo/target/
+            Paths.get(System.getProperty("user.home"), "Taller corte 2", ARCHIVO), // 4. Carpeta usuario
+            Paths.get("src", "main", "resources", ARCHIVO) // 5. Dev en VS Code
     };
 
     private ConfiguracionApp() {

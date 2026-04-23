@@ -4,7 +4,11 @@
 -- Descripción: Script de creación de tablas basado en el
 --              diagrama de clases del taller corte 2.
 -- ============================================================
+-- 1. Crear el schema
+CREATE SCHEMA IF NOT EXISTS "Taller corte 2";
 
+-- 2. Establecerlo como schema activo para esta sesión
+SET search_path TO "Taller corte 2";
 -- -------------------------------------------------------
 -- Tabla: Materia
 -- Almacena las materias disponibles en el sistema.
